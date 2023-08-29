@@ -1,0 +1,20 @@
+shirt:nike top:26:10:69.69:Holon
+pants:jeans bottom:32:15:89.99:Tel Aviv
+shoes:running shoes:9:20:149.99:Rishon LeTzion
+scarf:wool wrap:one-size:5:39.99:Holon
+jacket:leather:42:6:199.99:Tel Aviv
+swimsuit:bikini small:18:49.99:Rishon LeTzion
+shirt:puma top:28:10:64.99:Holon
+pants:khakis:36:10:69.99:Tel Aviv
+shoes:sneakers:8:25:109.99:Rishon LeTzion
+scarf:silk scarf:one-size:7:29.99:Holon
+jacket:denim:38:8:149.99:Tel Aviv
+swimsuit:trunks large:14:39.99:Rishon LeTzion
+shirt:under armour tee:31:9:54.99:Holon
+pants:cargo:33:11:74.99:Tel Aviv
+shoes:boots:11:18:139.99:Rishon LeTzion
+scarf:cashmere wrap:one-size:4:79.99:Holon
+jacket:raincoat:40:7:129.99:Tel Aviv
+swimsuit:one-piece medium:20:59.99:Rishon LeTzion
+shirt:vans tee:29:8:49.99:Holon
+pants:slacks:35:9:84.99:Tel Aviv

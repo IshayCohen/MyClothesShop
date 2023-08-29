@@ -1,17 +1,9 @@
 package ClothesShopPackage;
 
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 public class LoginScreen extends JFrame {
     private JTextField usernameField;
@@ -49,8 +41,29 @@ public class LoginScreen extends JFrame {
                 String password = new String(passwordChars);
 
                 if (Authentication.isValidUser(username, password)) {
-                    JOptionPane.showMessageDialog(LoginScreen.this, "Login successful!");
-                    // Open the main shop window or perform other actions here
+                    if (username.equals("admin") && password.equals("admin")) {
+                        HomePage homePage = new HomePage(username);
+                        homePage.setVisible(true);
+                    } else {
+                        String branch = Authentication.getBranch(username);
+                        if (branch != null) {
+                            if (branch.equals("Holon")) {
+                                HolonPage holonPage = new HolonPage(username);
+                                holonPage.setVisible(true);
+                            } else if (branch.equals("Rishon LeTzion")) {
+                                RishonLeTzionPage rishonPage = new RishonLeTzionPage(username);
+                                rishonPage.setVisible(true);
+                            } else if (branch.equals("Tel Aviv")) {
+                                TelAvivPage telAvivPage = new TelAvivPage(username);
+                                telAvivPage.setVisible(true);
+                            } else {
+                                JOptionPane.showMessageDialog(LoginScreen.this, "Invalid user branch.");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(LoginScreen.this, "User branch not found.");
+                        }
+                    }
+                    dispose(); // Close the login screen
                 } else {
                     JOptionPane.showMessageDialog(LoginScreen.this, "Invalid username or password. Please try again.");
                 }
@@ -60,14 +73,8 @@ public class LoginScreen extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                char[] passwordChars = passwordField.getPassword();
-                String password = new String(passwordChars);
-
-                Authentication.addUser(username, password);
-                JOptionPane.showMessageDialog(LoginScreen.this, "User registered successfully!");
-                
-                // You can add more logic here, such as clearing fields or navigating to another screen
+                RegisterPage registerPage = new RegisterPage();
+                registerPage.setVisible(true);
             }
         });
     }
@@ -81,4 +88,3 @@ public class LoginScreen extends JFrame {
         });
     }
 }
-        
