@@ -6,6 +6,8 @@ import ProductPackage.ProductDatabase;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class RishonLeTzionPage extends JFrame {
@@ -36,5 +38,18 @@ public class RishonLeTzionPage extends JFrame {
 
         // Add components to the frame
         add(scrollPane, BorderLayout.CENTER);
+        
+        JButton logoutButton = new JButton("Logout"); // Use JButton here
+        add(logoutButton, BorderLayout.SOUTH);
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Perform logout action here
+                dispose(); // Close the branch page
+                LoginScreen loginScreen = new LoginScreen();
+                loginScreen.setVisible(true);
+            }
+        });
     }
 }
