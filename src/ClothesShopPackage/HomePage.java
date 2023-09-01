@@ -24,7 +24,18 @@ public class HomePage extends JFrame {
         add(rishonButton);
         add(holonButton);
         add(logoutButton);
-
+        
+        JButton userManagementButton = new JButton("User Management Page");
+        userManagementButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openUserManagementPage();
+            }
+        });
+        
+        
+        add(userManagementButton);
+        
         telAvivButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,4 +72,11 @@ public class HomePage extends JFrame {
         // Code to open the branch page based on the selected branch
         // You can implement this logic similar to your existing branch pages
     }
+    
+    private void openUserManagementPage() {
+        // Open the User Management Page
+        UserManagementPage userManagementPage = new UserManagementPage();
+        userManagementPage.setVisible(true);
+    }
+    
 }
