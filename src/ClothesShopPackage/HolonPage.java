@@ -66,7 +66,8 @@ public class HolonPage extends JFrame {
         // Add components to the frame
         add(searchPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
-
+        
+        
         JButton logoutButton = new JButton("Logout");
         add(logoutButton, BorderLayout.SOUTH);
 
@@ -79,6 +80,17 @@ public class HolonPage extends JFrame {
                 loginScreen.setVisible(true);
             }
         });
+        
+        JButton openChatRoomButton = new JButton("Open Chat Room");
+        openChatRoomButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openChatRoom(); // Open the chat room page
+            }
+        });
+        
+        add(openChatRoomButton, BorderLayout.WEST); // Add the "Open Chat Room" button
+        
     }
 
     // Helper method to perform the search
@@ -87,4 +99,13 @@ public class HolonPage extends JFrame {
         RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.regexFilter("(?i)" + searchText); // Case-insensitive search
         sorter.setRowFilter(rowFilter);
     }
+    	
+    private void openChatRoom() {
+        // Create and display the chat room page
+        ChatRoomPage chatRoomPage = new ChatRoomPage();
+        chatRoomPage.setVisible(true);
+    }
+   
+    
+    
 }
