@@ -17,13 +17,13 @@ public class CustomerAuthentication {
     }
 
     private static void loadCustomerCredentials() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("customerCredentials.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("customerDB.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");
-                if (parts.length == 2) {
+                if (parts.length == 5) {
                     String username = parts[0].trim();
-                    String password = parts[1].trim();
+                    String password = parts[3].trim();
                     customerCredentials.put(username, password);
                 }
             }
