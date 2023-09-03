@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HomePage extends JFrame {
-    private String username;
+    public String username;
 
     public HomePage(String username) {
         this.username = username;
@@ -35,6 +35,15 @@ public class HomePage extends JFrame {
         
         
         add(userManagementButton);
+        
+        JButton employeeManagementButton = new JButton("Employee Management");
+        employeeManagementButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openEmployeeManagementPage();
+            }
+        });
+        add(employeeManagementButton);
         
         telAvivButton.addActionListener(new ActionListener() {
             @Override
@@ -77,6 +86,17 @@ public class HomePage extends JFrame {
         // Open the User Management Page
         UserManagementPage userManagementPage = new UserManagementPage();
         userManagementPage.setVisible(true);
+    }
+    
+    private void openEmployeeManagementPage() {
+        // Create an instance of EmployeeManager
+        EmployeeManager employeeManager = new EmployeeManager();
+
+        // Create an instance of EmployeeManagementPage and pass the EmployeeManager
+        EmployeeManagementPage employeeManagementPage = new EmployeeManagementPage(employeeManager);
+
+        // Make the Employee Management Page visible
+        employeeManagementPage.setVisible(true);
     }
     
 }

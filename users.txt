@@ -3,3 +3,10 @@ admin : admin : Holon
 ishay : 123 : Tel Aviv
 belay : 123 : Rishon LeTzion
 noam2 : 123 : Holon
+user1 : 123 : Holon
+user2 : 123 : Tel Aviv
+user3 : 123 : Tel Aviv
+user4 : 123 : Tel Aviv
+user6 : 123 : Holon
+user8 : 123 : Holon
+user9 : 123 : Holon
