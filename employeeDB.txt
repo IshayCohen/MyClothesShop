@@ -1,3 +1,2 @@
-user6 : 3 : 3 : 3 : Holon : 4 : Shift Manager : 123
-user8 : 3 : 4 : 2 : Holon : 3 : Shift Manager : 123
-user9 : 3 : 4 : 2 : Holon : 3 : Cashier : 123
+g : 3 : 2 : 23 : Holon : 423 : Shift Manager : 123
+f : 1212 : 32 : 123 : Holon : 322 : Shift Manager : 123

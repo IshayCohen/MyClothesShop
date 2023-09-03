@@ -2,7 +2,10 @@ package ClothesShopPackage;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +14,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class EmployeeManagementPage extends JFrame {
     private EmployeeManager employeeManager;
@@ -30,7 +36,7 @@ public class EmployeeManagementPage extends JFrame {
 
         setTitle("Employee Management");
         setSize(800, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Initialize and populate the table with employee data
         tableModel = new DefaultTableModel();
@@ -106,13 +112,153 @@ public class EmployeeManagementPage extends JFrame {
 
 
     private void updateEmployee() {
-        // Get data from input fields and update the selected Employee
-        // Update the table with the updated data
+        int selectedRow = employeeTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an employee to update.");
+            return;
+        }
+
+        // Get the selected employee's data from the table
+        String fullName = (String) tableModel.getValueAt(selectedRow, 0);
+        String postalCode = (String) tableModel.getValueAt(selectedRow, 1);
+        String phoneNumber = (String) tableModel.getValueAt(selectedRow, 2);
+        String accountNumber = (String) tableModel.getValueAt(selectedRow, 3);
+        String branchAffiliation = (String) tableModel.getValueAt(selectedRow, 4);
+        String employeeNumber = (String) tableModel.getValueAt(selectedRow, 5);
+        String position = (String) tableModel.getValueAt(selectedRow, 6);
+        String password = (String) tableModel.getValueAt(selectedRow, 7);
+
+        // Create a dialog for updating the selected employee's data
+        JDialog updateEmployeeDialog = new JDialog(this, "Update Employee", true);
+        updateEmployeeDialog.setSize(300, 250);
+        updateEmployeeDialog.setLayout(new GridLayout(8, 2));
+
+        JTextField updatedFullNameField = new JTextField(fullName);
+        JTextField updatedPostalCodeField = new JTextField(postalCode);
+        JTextField updatedPhoneNumberField = new JTextField(phoneNumber);
+        JTextField updatedAccountNumberField = new JTextField(accountNumber);
+        JTextField updatedBranchAffiliationField = new JTextField(branchAffiliation);
+        JTextField updatedEmployeeNumberField = new JTextField(employeeNumber);
+        JTextField updatedPositionField = new JTextField(position);
+        JTextField updatedPasswordField = new JTextField(password);
+
+        JButton applyButton = new JButton("Apply");
+
+        updateEmployeeDialog.add(new JLabel("Full Name:"));
+        updateEmployeeDialog.add(updatedFullNameField);
+        updateEmployeeDialog.add(new JLabel("Postal Code:"));
+        updateEmployeeDialog.add(updatedPostalCodeField);
+        updateEmployeeDialog.add(new JLabel("Phone Number:"));
+        updateEmployeeDialog.add(updatedPhoneNumberField);
+        updateEmployeeDialog.add(new JLabel("Account Number:"));
+        updateEmployeeDialog.add(updatedAccountNumberField);
+        updateEmployeeDialog.add(new JLabel("Branch Affiliation:"));
+        updateEmployeeDialog.add(updatedBranchAffiliationField);
+        updateEmployeeDialog.add(new JLabel("Employee Number:"));
+        updateEmployeeDialog.add(updatedEmployeeNumberField);
+        updateEmployeeDialog.add(new JLabel("Position:"));
+        updateEmployeeDialog.add(updatedPositionField);
+        updateEmployeeDialog.add(new JLabel("Password:"));
+        updateEmployeeDialog.add(updatedPasswordField);
+        updateEmployeeDialog.add(new JLabel()); // Empty label for spacing
+        updateEmployeeDialog.add(applyButton);
+
+        applyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the updated data from the dialog
+                String updatedFullName = updatedFullNameField.getText();
+                String updatedPostalCode = updatedPostalCodeField.getText();
+                String updatedPhoneNumber = updatedPhoneNumberField.getText();
+                String updatedAccountNumber = updatedAccountNumberField.getText();
+                String updatedBranchAffiliation = updatedBranchAffiliationField.getText();
+                String updatedEmployeeNumber = updatedEmployeeNumberField.getText();
+                String updatedPosition = updatedPositionField.getText();
+                String updatedPassword = updatedPasswordField.getText();
+
+                // Create an updated Employee object with the new data
+                Employee updatedEmployee = new Employee(updatedFullName, updatedPostalCode, updatedPhoneNumber,
+                        updatedAccountNumber, updatedBranchAffiliation, updatedEmployeeNumber, updatedPosition,
+                        updatedPassword);
+
+                // Update the Employee in the EmployeeManager (if needed)
+                // employeeManager.updateEmployee(updatedEmployee);
+
+                // Remove the old employee record from the employeeDB.txt file
+                removeEmployeeFromDB(employeeNumber);
+
+                // Write the updated employee data to the employeeDB.txt file
+                writeEmployeeToDB(updatedEmployee);
+
+                // Refresh the table to reflect the changes
+                updateEmployeeTable();
+
+                // Close the dialog
+                updateEmployeeDialog.dispose();
+
+                JOptionPane.showMessageDialog(EmployeeManagementPage.this, "Employee updated successfully.");
+            }
+        });
+
+        updateEmployeeDialog.setVisible(true);
     }
 
+    private void removeEmployeeFromDB(String employeeNumberToRemove) {
+        try {
+            // Read all lines from the employeeDB.txt file
+            List<String> lines = Files.readAllLines(Paths.get("employeeDB.txt"));
+
+            // Create a new list to store the updated lines (excluding the old employee record)
+            List<String> updatedLines = new ArrayList<>();
+
+            for (String line : lines) {
+                String[] parts = line.split(" : ");
+                if (parts.length == 8 && !parts[5].equals(employeeNumberToRemove)) {
+                    // Only add lines that are not the old employee record
+                    updatedLines.add(line);
+                }
+            }
+
+            // Write the updated lines back to the employeeDB.txt file
+            Files.write(Paths.get("employeeDB.txt"), updatedLines, StandardCharsets.UTF_8);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error removing old employee record from employeeDB.txt.");
+        }
+    }
+
+    
+
     private void deleteEmployee() {
-        // Delete the selected Employee from the employeeManager
-        // Remove the Employee from the table
+        int selectedRow = employeeTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            // No employee selected, show an error message
+            JOptionPane.showMessageDialog(this, "Please select an employee to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Get the employee information from the selected row
+            String fullName = (String) tableModel.getValueAt(selectedRow, 0);
+            String postalCode = (String) tableModel.getValueAt(selectedRow, 1);
+            String phoneNumber = (String) tableModel.getValueAt(selectedRow, 2);
+            String accountNumber = (String) tableModel.getValueAt(selectedRow, 3);
+            String branchAffiliation = (String) tableModel.getValueAt(selectedRow, 4);
+            String employeeNumber = (String) tableModel.getValueAt(selectedRow, 5);
+            String position = (String) tableModel.getValueAt(selectedRow, 6);
+            String password = (String) tableModel.getValueAt(selectedRow, 7);
+
+            // Create an Employee object from the selected employee's information
+            Employee selectedEmployee = new Employee(fullName, postalCode, phoneNumber, accountNumber, branchAffiliation, employeeNumber, position, password);
+
+            // Remove the selected employee from the employeeManager
+            //employeeManager.removeEmployee(selectedEmployee);
+
+            // Remove the selected employee from the employeeDB.txt file
+            removeFromEmployeeDB(selectedEmployee);
+
+            // Remove the selected employee from the table
+            tableModel.removeRow(selectedRow);
+        }
     }
 
     private void populateEmployeeTable() {
@@ -241,6 +387,35 @@ public class EmployeeManagementPage extends JFrame {
         // Populate the table with updated employee data
         populateEmployeeTable();
     }
+    
+ 
+ // Helper method to remove an employee from the employeeDB.txt file
+    private void removeFromEmployeeDB(Employee employee) {
+        try {
+            // Read all lines from the employeeDB.txt file
+            List<String> lines = Files.readAllLines(Paths.get("employeeDB.txt"));
+
+            // Create a new list of lines without the selected employee's information
+            List<String> updatedLines = new ArrayList<>();
+            for (String line : lines) {
+                String[] parts = line.split(" : ");
+                if (parts.length == 8) {
+                    // Check if the employee number in the line matches the selected employee's number
+                    if (!parts[5].equals(employee.getEmployeeNumber())) {
+                        updatedLines.add(line);
+                    }
+                }
+            }
+
+            // Write the updated lines back to the employeeDB.txt file
+            Files.write(Paths.get("employeeDB.txt"), updatedLines, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error removing employee from employeeDB.txt.");
+        }
+    }
+
+
 
 
 }

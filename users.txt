@@ -10,3 +10,16 @@ user4 : 123 : Tel Aviv
 user6 : 123 : Holon
 user8 : 123 : Holon
 user9 : 123 : Holon
+ffff : 123 : 3
+ggg : 123 : 1
+ttt : 123 : Holon
+ggg : 123 : Tel Aviv
+ttt : 123 : Holon
+a : 123 : Tel Aviv
+b : 123 : Holom
+r : 123 : Holon
+g : 123 : Tel Aviv
+g : 123 : Holon
+y : 123 : Tel Aviv
+g : 123 : Holon
+f : 123 : Holon

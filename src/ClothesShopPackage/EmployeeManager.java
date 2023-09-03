@@ -5,7 +5,7 @@ import java.util.List;
 
 public class EmployeeManager {
     private static List<Employee> employees;
-
+    
     public  EmployeeManager() {
         employees = new ArrayList<>();
     }
@@ -24,6 +24,15 @@ public class EmployeeManager {
 
     public List<Employee> getAllEmployees() {
         return employees;
+    }
+
+    public Employee getEmployeeByEmployeeNumber(String employeeNumber) {
+        for (Employee employee : employees) {
+            if (employee.getEmployeeNumber().equals(employeeNumber)) {
+                return employee;
+            }
+        }
+        return null; // Return null if no employee with the given employeeNumber is found
     }
 
     // Additional methods for data validation, saving/loading data, etc.
