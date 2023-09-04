@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class CustomerRegistrationPage extends JFrame {
     public CustomerRegistrationPage() {
         setTitle("Customer Registration");
         setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(6, 2));
@@ -87,12 +89,16 @@ public class CustomerRegistrationPage extends JFrame {
             writer.write(customerInfo);
             writer.newLine();
 
-            // Display a confirmation message
-            JOptionPane.showMessageDialog(null, "Customer registered:\nName: " + name + "\nID: " + id + "\nPhone: " + phone + "\nType: " + type);
+            // Display a confirmation message with a Close button
+            JOptionPane.showMessageDialog(null, "Customer registered successfully", "Registration Confirmation", JOptionPane.INFORMATION_MESSAGE);
+
+            // Automatically close the registration page when the message is closed
+            dispose();
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error writing to customerDB.txt.");
         }
     }
 
+   
 }
