@@ -55,12 +55,4 @@ public class CustomerHomePage extends JFrame {
         // You may want to navigate back to the login screen or perform other actions here.
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CustomerHomePage("Customer123").setVisible(true);
-            }
-        });
-    }
 }
