@@ -30,6 +30,14 @@ public class CustomerHomePage extends JFrame {
             }
         });
 
+        JButton viewAllProductsButton = new JButton("View all available products");
+        viewAllProductsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openAllProductsCustomersPage();
+            }
+        });
+
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(new ActionListener() {
             @Override
@@ -40,6 +48,7 @@ public class CustomerHomePage extends JFrame {
         });
 
         buttonPanel.add(viewProfileButton);
+        buttonPanel.add(viewAllProductsButton);
         buttonPanel.add(logoutButton);
 
         add(welcomeLabel, BorderLayout.NORTH);
@@ -48,11 +57,16 @@ public class CustomerHomePage extends JFrame {
         setLocationRelativeTo(null); // Center the frame on the screen
     }
 
+    private void openAllProductsCustomersPage() {
+        // Open the All Products Customers Page
+        AllProductsCustomerPage allProductsCustomersPage = new AllProductsCustomerPage(username);
+        allProductsCustomersPage.setVisible(true);
+    }
+
     private void logout() {
         // Implement code to log out the customer
         JOptionPane.showMessageDialog(this, "Logged out successfully.");
         dispose(); // Close the customer home page
         // You may want to navigate back to the login screen or perform other actions here.
     }
-
 }

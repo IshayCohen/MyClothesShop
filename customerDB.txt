@@ -1,5 +1,10 @@
 re : 12331 : 12412 : 123 : New
 cus : 123123 : 12313213 : 123 : New
+<<<<<<< Updated upstream
 g : 123 : 3123 : 123 : New
 rr : 213 : 123 : 123 : New
 dsf : 12331 : 1231 : 312321 : New
+=======
+ishaycustomer : 123 : 123 : 123 : New
+>>>>>>> Stashed changes
+cus1 : 1 : 1 : 213 : New

@@ -24,7 +24,7 @@ public class HomePage extends JFrame {
         add(rishonButton);
         add(holonButton);
         add(logoutButton);
-        
+
         JButton userManagementButton = new JButton("User Management Page");
         userManagementButton.addActionListener(new ActionListener() {
             @Override
@@ -32,10 +32,8 @@ public class HomePage extends JFrame {
                 openUserManagementPage();
             }
         });
-        
-        
         add(userManagementButton);
-        
+
         JButton employeeManagementButton = new JButton("Employee Management");
         employeeManagementButton.addActionListener(new ActionListener() {
             @Override
@@ -44,7 +42,16 @@ public class HomePage extends JFrame {
             }
         });
         add(employeeManagementButton);
-        
+
+        JButton seeAllProductsButton = new JButton("See All Products");
+        seeAllProductsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openAllProductsPage();
+            }
+        });
+        add(seeAllProductsButton);
+
         telAvivButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,13 +88,13 @@ public class HomePage extends JFrame {
         // Code to open the branch page based on the selected branch
         // You can implement this logic similar to your existing branch pages
     }
-    
+
     private void openUserManagementPage() {
         // Open the User Management Page
         UserManagementPage userManagementPage = new UserManagementPage();
         userManagementPage.setVisible(true);
     }
-    
+
     private void openEmployeeManagementPage() {
         // Create an instance of EmployeeManager
         EmployeeManager employeeManager = new EmployeeManager();
@@ -98,5 +105,10 @@ public class HomePage extends JFrame {
         // Make the Employee Management Page visible
         employeeManagementPage.setVisible(true);
     }
-    
+
+    private void openAllProductsPage() {
+        // Open the All Products Page
+        AllProductsPage allProductsPage = new AllProductsPage();
+        allProductsPage.setVisible(true);
+    }
 }

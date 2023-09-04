@@ -5,7 +5,7 @@ scarf:winter scarf:one-size:7:19.99:Holon
 jacket:winter coat:small:10:149.99:Tel Aviv
 swimsuit:board shorts:medium:9:34.99:Rishon LeTzion
 shirt:polo shirt:large:14:29.99:Holon
-pants:chinos:small:11:49.99:Tel Aviv
+pants:chinos:small:10:49.99:Tel Aviv
 shoes:formal shoes:medium:6:89.99:Rishon LeTzion
 scarf:wool scarf:one-size:8:24.99:Holon
 jacket:sport jacket:large:15:79.99:Tel Aviv
@@ -13,7 +13,7 @@ swimsuit:two-piece bikini:small:12:39.99:Rishon LeTzion
 shirt:striped tee:medium:7:54.99:Holon
 pants:joggers:large:10:59.99:Tel Aviv
 shoes:slip-on sneakers:medium:14:109.99:Rishon LeTzion
-scarf:patterned scarf:one-size:9:34.99:Holon
+scarf:patterned scarf:one-size:6:34.99:Holon
 jacket:rain jacket:large:11:119.99:Tel Aviv
 swimsuit:one-piece swimsuit:medium:17:49.99:Rishon LeTzion
 shirt:graphic tee:small:8:44.99:Holon

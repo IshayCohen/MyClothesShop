@@ -23,4 +23,3 @@ g : 123 : Holon
 y : 123 : Tel Aviv
 g : 123 : Holon
 f : 123 : Holon
-n : 213 : Holon
