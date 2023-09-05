@@ -69,7 +69,7 @@ pants:floral pants:medium:11:44.99:Tel Aviv
 shoes:wedge sandals:large:9:69.99:Rishon LeTzion
 scarf:fringed scarf:one-size:8:19.99:Holon
 jacket:motorcycle jacket:large:7:119.99:Tel Aviv
-swimsuit:swim cover-up:medium:12:29.99:Rishon LeTzion
+swimsuit:swim cover-up:medium:0:29.99:Rishon LeTzion
 shirt:oversized shirt:large:8:39.99:Holon
 pants:stretch pants:medium:9:54.99:Tel Aviv
 shoes:platform sneakers:large:10:99.99:Rishon LeTzion

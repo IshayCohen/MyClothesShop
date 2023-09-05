@@ -1,6 +1,9 @@
 package ClothesShopPackage;
 
 import javax.swing.*;
+
+import ClothesShop.StoreClient;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -68,5 +71,8 @@ public class CustomerHomePage extends JFrame {
         JOptionPane.showMessageDialog(this, "Logged out successfully.");
         dispose(); // Close the customer home page
         // You may want to navigate back to the login screen or perform other actions here.
+
+        // Get the existing instance of StoreClient and start the application
+        StoreClient.start();
     }
 }

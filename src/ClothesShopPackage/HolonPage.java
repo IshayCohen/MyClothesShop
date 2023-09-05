@@ -6,10 +6,12 @@ import ProductPackage.ProductDatabase;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
+import ClothesShop.StoreClient;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.RowFilter;
 import java.util.List;
 
 public class HolonPage extends JFrame {
@@ -76,8 +78,12 @@ public class HolonPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Perform logout action here
                 dispose(); // Close the branch page
-                LoginScreen loginScreen = new LoginScreen();
-                loginScreen.setVisible(true);
+             // Implement code to log out the customer
+                
+                // You may want to navigate back to the login screen or perform other actions here.
+
+                // Get the existing instance of StoreClient and start the application
+                StoreClient.start();
             }
         });
         
