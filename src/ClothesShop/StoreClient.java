@@ -110,11 +110,17 @@ public class StoreClient {
 								}
 							}
 						}
+					} else {
+						// Handle unsuccessful login
+						// ...
+						// Close the current socket and reconnect
+						closeSocket();
+						reconnectToServer();
 					}
-				} 
-				else {
+				} else {
 					// Handle the case where 'response' is null
 					JOptionPane.showMessageDialog(mainFrame, "Server response is null");
+
 				}
 				JOptionPane.showMessageDialog(mainFrame, response);
 
@@ -294,4 +300,35 @@ public class StoreClient {
 			e.printStackTrace();
 		}
 	}
+
+	private static void resetLoginPage() {
+		// Close the current socket
+		closeSocket();
+
+		// Re-create and display the login page
+		tabbedPane.removeAll();
+		createGUI(tabbedPane);
+	}
+
+	private static void closeSocket() {
+		try {
+			if (socket != null && !socket.isClosed()) {
+				socket.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void reconnectToServer() {
+		closeSocket(); // Close the existing socket
+		try {
+			socket = new Socket(SERVER_IP, SERVER_PORT); // Create a new socket
+			out = new PrintWriter(socket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

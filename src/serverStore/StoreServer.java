@@ -24,7 +24,7 @@ public class StoreServer {
                 try (Socket clientSocket = serverSocket.accept();
                      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                      BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-
+                	System.out.println("Here");
                     String requestType = in.readLine();
 
                     if ("customer_login".equals(requestType)) {
@@ -52,6 +52,7 @@ public class StoreServer {
                         } else {
                             out.println("Employee login failed. Invalid credentials.");
                             System.out.println("Employee login failed. Invalid credentials.");
+                            
                         }
                     } else {
                         // Invalid request type
