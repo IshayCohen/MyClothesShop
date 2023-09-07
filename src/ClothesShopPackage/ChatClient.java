@@ -1,9 +1,10 @@
-package ClothesShopPackage; 
+package ClothesShopPackage;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
-import javax.swing.*;
 
 public class ChatClient extends JFrame {
     private Socket socket;
@@ -11,17 +12,17 @@ public class ChatClient extends JFrame {
     private BufferedReader in;
     private JTextArea chatArea;
     private JTextField messageField;
-    private String username;
+    private String username , selectedUser;
 
-    public ChatClient(String serverAddress, int serverPort, String username) {
-        this.username = username;
-
+    public ChatClient(String serverAddress, int serverPort, String selectedUser, String user) {
+        this.username = user;
+        this.selectedUser = selectedUser;
         try {
             socket = new Socket(serverAddress, serverPort);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            setTitle("Chat Client - " + username);
+            setTitle("Chat Client - " + selectedUser);
             setSize(400, 300);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -67,8 +68,22 @@ public class ChatClient extends JFrame {
     private void sendMessage() {
         String messageText = messageField.getText().trim();
         if (!messageText.isEmpty()) {
-            String message = username + ": " + messageText;
-            out.println(message);
+            if (messageText.startsWith("/private")) {
+                // Send a private message
+                String[] parts = messageText.split(" ", 3);
+                if (parts.length == 3) {
+                    String recipient = parts[1];
+                    String privateMessage = parts[2];
+                    String message = "/private " + recipient + " " + privateMessage;
+                    out.println(message);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid private message format. Use /private username message");
+                }
+            } else {
+                // Send a regular message
+                String message = username + ": " + messageText + "^" + username + "^" + selectedUser;
+                out.println(message);
+            }
             messageField.setText("");
         }
     }
@@ -77,4 +92,3 @@ public class ChatClient extends JFrame {
         chatArea.append(message + "\n");
     }
 }
-

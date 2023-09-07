@@ -14,10 +14,10 @@ import java.util.List;
 public class ChatRoomPage extends JFrame {
     private JComboBox<String> userComboBox;
 
-    public ChatRoomPage() {
+    public ChatRoomPage(String username) {
         setTitle("Chat Room");
         setSize(400, 200);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        //setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         // Create a JComboBox for selecting users
         userComboBox = new JComboBox<>();
@@ -31,7 +31,7 @@ public class ChatRoomPage extends JFrame {
             	String selectedUser = (String) userComboBox.getSelectedItem();
             	if (selectedUser != null) {
             	    // Create a chat client with the selected user's information
-            	    ChatClient chatClient = new ChatClient("10.0.0.16" , 12346 , selectedUser);
+            	    ChatClient chatClient = new ChatClient("10.0.0.16" , 12346 , selectedUser, username);
             	    chatClient.setVisible(true);
             	}
             }

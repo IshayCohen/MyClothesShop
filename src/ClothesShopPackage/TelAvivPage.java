@@ -88,7 +88,7 @@ public class TelAvivPage extends JFrame {
         openChatRoomButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openChatRoom();
+                openChatRoom(username); // Pass the username
             }
         });
 
@@ -116,9 +116,9 @@ public class TelAvivPage extends JFrame {
         sorter.setRowFilter(rowFilter);
     }
 
-    private void openChatRoom() {
-        // Create and display the chat room page
-        ChatRoomPage chatRoomPage = new ChatRoomPage();
+    private void openChatRoom(String username) {
+        // Create and display the chat room page with the username
+        ChatRoomPage chatRoomPage = new ChatRoomPage(username);
         chatRoomPage.setVisible(true);
     }
 
