@@ -1,85 +1,70 @@
 package ClothesShopPackage;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserManagementPage extends JFrame {
-    private DefaultListModel<String> userListModel;
+    private DefaultTableModel customerTableModel;
+    private DefaultTableModel employeeTableModel;
 
     public UserManagementPage() {
         setTitle("User Management Page");
-        setSize(600, 400);
+        setSize(800, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        // Create a panel to display user information and delete buttons
-        JPanel userPanel = new JPanel();
-        userPanel.setLayout(new BorderLayout());
+        // Create table models for customers and employees
+        customerTableModel = new DefaultTableModel();
+        employeeTableModel = new DefaultTableModel();
 
-        // Load user data from the users.txt file
-        userListModel = new DefaultListModel<>();
-        loadUsersFromTextFile();
+        // Create customer and employee tables
+        JTable customerTable = new JTable(customerTableModel);
+        JTable employeeTable = new JTable(employeeTableModel);
 
-        JList<String> userList = new JList<>(userListModel);
-        JScrollPane userListScrollPane = new JScrollPane(userList);
+        // Add columns to customer table
+        customerTableModel.addColumn("Username");
+        customerTableModel.addColumn("Name");
+        customerTableModel.addColumn("ID");
+        customerTableModel.addColumn("Phone");
 
-        // Create a delete button
-        JButton deleteButton = new JButton("Delete User");
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the selected user(s) for deletion
-                String selectedUser = userList.getSelectedValue();
-                if (selectedUser != null) {
-                    // Remove the selected user from the list model
-                    userListModel.removeElement(selectedUser);
-                    // Update the users.txt file to remove the user
-                    deleteUserFromTextFile(selectedUser);
-                }
-            }
-        });
+        // Add columns to employee table
+        employeeTableModel.addColumn("Username");
+        employeeTableModel.addColumn("Full Name");
+        employeeTableModel.addColumn("Postal Code");
+        employeeTableModel.addColumn("Phone");
+        employeeTableModel.addColumn("Account Number");
+        employeeTableModel.addColumn("Branch Affiliation");
+        employeeTableModel.addColumn("Position");
 
-        userPanel.add(userListScrollPane, BorderLayout.CENTER);
-        userPanel.add(deleteButton, BorderLayout.SOUTH);
+        // Load customer data from customer.txt
+        loadUsersFromTextFile("customer.txt", customerTableModel);
 
-        add(userPanel);
+        // Load employee data from employee.txt
+        loadUsersFromTextFile("employee.txt", employeeTableModel);
+
+        // Create a tabbed pane to display customer and employee tables
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Customers", new JScrollPane(customerTable));
+        tabbedPane.addTab("Employees", new JScrollPane(employeeTable));
+
+        // Add the tabbed pane to the frame
+        add(tabbedPane);
     }
 
-    private void loadUsersFromTextFile() {
-        // Read user data from the users.txt file and add them to the list model
-        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
+    private void loadUsersFromTextFile(String fileName, DefaultTableModel tableModel) {
+        // Read user data from the specified file and add them to the table model
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                userListModel.addElement(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void deleteUserFromTextFile(String userToDelete) {
-        // Read all users from the users.txt file and write them back without the user to delete
-        List<String> users = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.equals(userToDelete)) {
-                    users.add(line);
+                String[] userData = line.split(";");
+                if (userData.length > 0) {
+                    tableModel.addRow(userData);
                 }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Write the updated user list back to the users.txt file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt"))) {
-            for (String user : users) {
-                writer.write(user);
-                writer.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,7 +7,7 @@ swimsuit:board shorts:medium:9:34.99:Rishon LeTzion
 shirt:polo shirt:large:14:29.99:Holon
 pants:chinos:small:10:49.99:Tel Aviv
 shoes:formal shoes:medium:6:89.99:Rishon LeTzion
-scarf:wool scarf:one-size:8:24.99:Holon
+scarf:wool scarf:one-size:4:24.99:Holon
 jacket:sport jacket:large:15:79.99:Tel Aviv
 swimsuit:two-piece bikini:small:12:39.99:Rishon LeTzion
 shirt:striped tee:medium:7:54.99:Holon

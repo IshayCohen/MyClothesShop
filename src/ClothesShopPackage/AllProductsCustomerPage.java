@@ -15,9 +15,13 @@ import java.util.List;
 public class AllProductsCustomerPage extends JFrame {
     private List<ProductPackage.Product> cart = new ArrayList<>();
     private String username;
+    private JTable cartTable;
+    private CustomerHomePage customerHomePage; // Reference to the CustomerHomePage
 
-    public AllProductsCustomerPage(String username) {
+    public AllProductsCustomerPage(String username, CustomerHomePage customerHomePage) {
         this.username = username;
+        this.customerHomePage = customerHomePage; // Set the reference
+
         // Read data from the "products.txt" file
         String fileName = "products.txt";
         String database = readFile(fileName);
@@ -145,13 +149,14 @@ public class AllProductsCustomerPage extends JFrame {
             JOptionPane.showMessageDialog(this, "Cart is empty.");
         } else {
             // Create a dialog to display the cart content
+        	dispose();
             JDialog cartDialog = new JDialog(this, "Cart Content", true);
             cartDialog.setLayout(new BorderLayout());
 
             // Create a table to display the cart content
             String[] columnNames = {"Type", "Name", "Size", "Quantity", "Price", "Branch"};
             DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-            JTable cartTable = new JTable(model);
+            cartTable = new JTable(model);
 
             // Add the cart items to the table
             for (ProductPackage.Product product : cart) {
@@ -177,6 +182,9 @@ public class AllProductsCustomerPage extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     cartDialog.dispose(); // Close the dialog
+                    
+                    customerHomePage.refreshProductsPage();
+
                 }
             });
 
@@ -192,7 +200,7 @@ public class AllProductsCustomerPage extends JFrame {
         }
     }
 
-    // Function to ask for confirmation to purchase all displayed products
+ // Function to ask for confirmation to purchase all displayed products
     private void confirmPurchase(List<ProductPackage.Product> productsToBuy) {
         double totalPrice = calculateTotalPrice(productsToBuy);
         int confirm = JOptionPane.showConfirmDialog(this,
@@ -201,10 +209,41 @@ public class AllProductsCustomerPage extends JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             // Perform the purchase action here (e.g., update inventory, process payment, etc.)
             updateProductQuantities(productsToBuy); // Update the quantities in products.txt
+
+            // Write the bought items to the "AllBoughtItems.txt" file
+            writeBoughtItemsToFile(username,productsToBuy);
+
             JOptionPane.showMessageDialog(this, "Products bought successfully!");
 
             // Clear the cart after the purchase
             productsToBuy.clear();
+            refreshCartTable();
+            customerHomePage.refreshProductsPage();
+        }
+    }
+
+    // Function to write the bought items to the "AllBoughtItems.txt" file
+    private void writeBoughtItemsToFile(String customerName,List<ProductPackage.Product> productsToBuy) {
+        String fileName = "AllBoughtItems.txt";
+        try (FileWriter writer = new FileWriter(fileName, true)) {
+            for (ProductPackage.Product product : productsToBuy) {
+                writer.write(product.getType() + ":" + product.getName() + ":" + product.getSize()
+                        + ":" + product.getQuantity() + ":$" + product.getPrice() + ":" + product.getBranch() + ":" + customerName + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+  
+    private void refreshCartTable() {
+        DefaultTableModel model = (DefaultTableModel) cartTable.getModel();
+        model.setRowCount(0); // Clear the existing rows
+
+        // Add the updated cart items to the table
+        for (ProductPackage.Product product : cart) {
+            model.addRow(new Object[]{product.getType(), product.getName(), product.getSize(),
+                    product.getQuantity(), "$" + product.getPrice(), product.getBranch()});
         }
     }
 

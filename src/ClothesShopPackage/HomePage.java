@@ -13,44 +13,32 @@ public class HomePage extends JFrame {
         setTitle("Home Page - Welcome, " + username + "!");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(4, 1));
+        setLayout(new BorderLayout()); // Use BorderLayout for better layout management
+
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 1)); // Create a panel for buttons
 
         JButton telAvivButton = new JButton("Tel Aviv");
         JButton rishonButton = new JButton("Rishon LeTzion");
         JButton holonButton = new JButton("Holon");
         JButton logoutButton = new JButton("Logout");
 
-        add(telAvivButton);
-        add(rishonButton);
-        add(holonButton);
-        add(logoutButton);
+        buttonPanel.add(telAvivButton);
+        buttonPanel.add(rishonButton);
+        buttonPanel.add(holonButton);
+        buttonPanel.add(logoutButton);
 
+        // Create buttons for additional actions
         JButton userManagementButton = new JButton("User Management Page");
-        userManagementButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openUserManagementPage();
-            }
-        });
-        add(userManagementButton);
-
         JButton employeeManagementButton = new JButton("Employee Management");
-        employeeManagementButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openEmployeeManagementPage();
-            }
-        });
-        add(employeeManagementButton);
-
         JButton seeAllProductsButton = new JButton("See All Products");
-        seeAllProductsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openAllProductsPage();
-            }
-        });
-        add(seeAllProductsButton);
+
+        // Add buttons to the button panel
+        buttonPanel.add(userManagementButton);
+        buttonPanel.add(employeeManagementButton);
+        buttonPanel.add(seeAllProductsButton);
+
+        // Add the button panel to the center of the frame
+        add(buttonPanel, BorderLayout.CENTER);
 
         telAvivButton.addActionListener(new ActionListener() {
             @Override
@@ -82,12 +70,46 @@ public class HomePage extends JFrame {
                 loginScreen.setVisible(true);
             }
         });
+
+        userManagementButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openUserManagementPage();
+            }
+        });
+
+        employeeManagementButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openEmployeeManagementPage();
+            }
+        });
+
+        seeAllProductsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openAllProductsPage();
+            }
+        });
+
+        setLocationRelativeTo(null); // Center the frame on the screen
     }
 
     private void openBranchPage(String branch) {
-        // Code to open the branch page based on the selected branch
-        // You can implement this logic similar to your existing branch pages
+        if (branch.equals("Tel Aviv")) {
+            TelAvivPage telAvivPage = new TelAvivPage(username);
+            telAvivPage.setVisible(true);
+        } else if (branch.equals("Rishon LeTzion")) {
+            RishonLeTzionPage rishonPage = new RishonLeTzionPage(username);
+            rishonPage.setVisible(true);
+        } else if (branch.equals("Holon")) {
+            HolonPage holonPage = new HolonPage(username);
+            holonPage.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid branch selected.");
+        }
     }
+
 
     private void openUserManagementPage() {
         // Open the User Management Page

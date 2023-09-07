@@ -42,21 +42,26 @@ public class StoreClient {
 	}
 
 	private static void createGUI(JTabbedPane tabbedPane) {
-		mainFrame = new JFrame("Store Login and Register");
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(400, 200);
-		mainFrame.setLayout(new BorderLayout());
+	    mainFrame = new JFrame("Store Login and Register");
+	    mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    mainFrame.setSize(400, 300); // Increased height for better visibility
+	    mainFrame.setLayout(new BorderLayout());
 
-		JPanel employeePanel = createLoginPanel("Employee", "employee_login", tabbedPane);
-		JPanel customerPanel = createLoginPanel("Customer", "customer_login", tabbedPane);
+	    // Create employee login and customer login panels
+	    JPanel employeePanel = createLoginPanel("Employee", "employee_login", tabbedPane);
+	    JPanel customerPanel = createLoginPanel("Customer", "customer_login", tabbedPane);
+
 		if (flag == 1) {
 			tabbedPane.addTab("Employee", employeePanel);
 			tabbedPane.addTab("Customer", customerPanel);
 		}
 		flag++;
+	    mainFrame.add(tabbedPane, BorderLayout.CENTER);
 
-		mainFrame.add(tabbedPane, BorderLayout.CENTER);
-		mainFrame.setVisible(true);
+	    // Center the frame on the screen
+	    mainFrame.setLocationRelativeTo(null);
+
+	    mainFrame.setVisible(true);
 	}
 
 	private static JPanel createLoginPanel(String userType, String requestType, JTabbedPane tabbedPane) {
@@ -149,125 +154,144 @@ public class StoreClient {
 
 		return panel;
 	}
-
+	
 	private static void openCustomerRegistrationWindow(JTabbedPane tabbedPane) {
-		JFrame registerFrame = new JFrame("Customer Registration");
-		registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		registerFrame.setSize(400, 200);
+	    JFrame registerFrame = new JFrame("Customer Registration");
+	    registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    registerFrame.setSize(400, 250); // Set an appropriate size
+	    registerFrame.setLayout(new BorderLayout());
 
-		JPanel registerPanel = new JPanel();
-		JTextField usernameField = new JTextField(20);
-		JPasswordField passwordField = new JPasswordField(20);
-		JTextField nameField = new JTextField(20);
-		JTextField idField = new JTextField(20);
-		JTextField phoneField = new JTextField(20);
-		JButton registerButton = new JButton("Register");
+	    JPanel registerPanel = new JPanel();
+	    registerPanel.setLayout(new GridLayout(6, 2));
 
-		registerButton.addActionListener(e -> {
-			String username = usernameField.getText();
-			String password = new String(passwordField.getPassword());
-			String name = nameField.getText();
-			String id = idField.getText();
-			String phone = phoneField.getText();
+	    JTextField usernameField = new JTextField(20);
+	    JPasswordField passwordField = new JPasswordField(20);
+	    JTextField nameField = new JTextField(20);
+	    JTextField idField = new JTextField(20);
+	    JTextField phoneField = new JTextField(20);
 
-			// Create a Customer instance
-			Customer customer = new Customer(username, password, name, id, phone);
+	    JButton registerButton = new JButton("Register");
 
-			// Save the customer to the list and file
-			customers.add(customer);
-			saveCustomersToFile();
+	    registerButton.addActionListener(e -> {
+	        String username = usernameField.getText();
+	        String password = new String(passwordField.getPassword());
+	        String name = nameField.getText();
+	        String id = idField.getText();
+	        String phone = phoneField.getText();
 
-			// Display a success message
-			JOptionPane.showMessageDialog(registerFrame, "Customer registration successful");
-			registerFrame.dispose();
-		});
+	        // Create a Customer instance
+	        Customer customer = new Customer(username, password, name, id, phone);
 
-		registerPanel.setLayout(new GridLayout(6, 2));
-		registerPanel.add(new JLabel("Customer Username:"));
-		registerPanel.add(usernameField);
-		registerPanel.add(new JLabel("Customer Password:"));
-		registerPanel.add(passwordField);
-		registerPanel.add(new JLabel("Name:"));
-		registerPanel.add(nameField);
-		registerPanel.add(new JLabel("ID:"));
-		registerPanel.add(idField);
-		registerPanel.add(new JLabel("Phone:"));
-		registerPanel.add(phoneField);
-		registerPanel.add(registerButton);
+	        // Save the customer to the list and file
+	        customers.add(customer);
+	        saveCustomersToFile();
 
-		registerFrame.add(registerPanel);
-		registerFrame.setVisible(true);
+	        // Display a success message
+	        JOptionPane.showMessageDialog(registerFrame, "Customer registration successful");
+	        registerFrame.dispose();
+	    });
+
+	    registerPanel.add(new JLabel("Customer Username:"));
+	    registerPanel.add(usernameField);
+	    registerPanel.add(new JLabel("Customer Password:"));
+	    registerPanel.add(passwordField);
+	    registerPanel.add(new JLabel("Name:"));
+	    registerPanel.add(nameField);
+	    registerPanel.add(new JLabel("ID:"));
+	    registerPanel.add(idField);
+	    registerPanel.add(new JLabel("Phone:"));
+	    registerPanel.add(phoneField);
+
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    buttonPanel.add(registerButton);
+
+	    registerFrame.add(registerPanel, BorderLayout.CENTER);
+	    registerFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+	    // Center the frame on the screen
+	    registerFrame.setLocationRelativeTo(null);
+
+	    registerFrame.setVisible(true);
 	}
 
 	private static void openEmployeeRegistrationWindow() {
-		JFrame registerFrame = new JFrame("Employee Registration");
-		registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		registerFrame.setSize(400, 400);
+	    JFrame registerFrame = new JFrame("Employee Registration");
+	    registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    registerFrame.setSize(400, 350); // Set an appropriate size
+	    registerFrame.setLayout(new BorderLayout());
 
-		JPanel registerPanel = new JPanel();
-		JTextField usernameField = new JTextField(20);
-		JPasswordField passwordField = new JPasswordField(20);
-		JTextField fullNameField = new JTextField(20);
-		JTextField postalCodeField = new JTextField(20);
-		JTextField phoneNumberField = new JTextField(20);
-		JTextField accountNumberField = new JTextField(20);
+	    JPanel registerPanel = new JPanel();
+	    registerPanel.setLayout(new GridLayout(8, 2));
 
-		// ComboBox for branchAffiliation
-		String[] branches = { "Holon", "Tel Aviv", "Rishon LeTzion" };
-		JComboBox<String> branchAffiliationComboBox = new JComboBox<>(branches);
+	    JTextField usernameField = new JTextField(20);
+	    JPasswordField passwordField = new JPasswordField(20);
+	    JTextField fullNameField = new JTextField(20);
+	    JTextField postalCodeField = new JTextField(20);
+	    JTextField phoneNumberField = new JTextField(20);
+	    JTextField accountNumberField = new JTextField(20);
 
-		// ComboBox for position
-		String[] positions = { "Seller", "Cashier", "Shift manager" };
-		JComboBox<String> positionComboBox = new JComboBox<>(positions);
+	    String[] branches = { "Holon", "Tel Aviv", "Rishon LeTzion" };
+	    JComboBox<String> branchAffiliationComboBox = new JComboBox<>(branches);
 
-		JButton registerButton = new JButton("Register");
+	    String[] positions = { "Seller", "Cashier", "Shift manager" };
+	    JComboBox<String> positionComboBox = new JComboBox<>(positions);
 
-		registerButton.addActionListener(e -> {
-			String username = usernameField.getText();
-			String password = new String(passwordField.getPassword());
-			String fullName = fullNameField.getText();
-			String postalCode = postalCodeField.getText();
-			String phoneNumber = phoneNumberField.getText();
-			String accountNumber = accountNumberField.getText();
-			String branchAffiliation = (String) branchAffiliationComboBox.getSelectedItem();
-			String position = (String) positionComboBox.getSelectedItem();
+	    JButton registerButton = new JButton("Register");
 
-			// Create an Employee instance
-			Employee employee = new Employee(username, password, fullName, postalCode, phoneNumber, accountNumber,
-					branchAffiliation, position);
+	    registerButton.addActionListener(e -> {
+	        String username = usernameField.getText();
+	        String password = new String(passwordField.getPassword());
+	        String fullName = fullNameField.getText();
+	        String postalCode = postalCodeField.getText();
+	        String phoneNumber = phoneNumberField.getText();
+	        String accountNumber = accountNumberField.getText();
+	        String branchAffiliation = (String) branchAffiliationComboBox.getSelectedItem();
+	        String position = (String) positionComboBox.getSelectedItem();
 
-			// Save the employee to the list and file
-			employees.add(employee);
-			saveEmployeesToFile();
+	        // Create an Employee instance
+	        Employee employee = new Employee(username, password, fullName, postalCode, phoneNumber, accountNumber,
+	                branchAffiliation, position);
 
-			// Display a success message
-			JOptionPane.showMessageDialog(registerFrame, "Employee registration successful");
-			registerFrame.dispose();
-		});
+	        // Save the employee to the list and file
+	        employees.add(employee);
+	        saveEmployeesToFile();
 
-		// Add components to the registration panel
-		registerPanel.setLayout(new GridLayout(8, 2));
-		registerPanel.add(new JLabel("Employee Username:"));
-		registerPanel.add(usernameField);
-		registerPanel.add(new JLabel("Employee Password:"));
-		registerPanel.add(passwordField);
-		registerPanel.add(new JLabel("Full Name:"));
-		registerPanel.add(fullNameField);
-		registerPanel.add(new JLabel("Postal Code:"));
-		registerPanel.add(postalCodeField);
-		registerPanel.add(new JLabel("Phone Number:"));
-		registerPanel.add(phoneNumberField);
-		registerPanel.add(new JLabel("Account Number:"));
-		registerPanel.add(accountNumberField);
-		registerPanel.add(new JLabel("Branch Affiliation:"));
-		registerPanel.add(branchAffiliationComboBox);
-		registerPanel.add(new JLabel("Position:"));
-		registerPanel.add(positionComboBox);
-		registerPanel.add(registerButton);
+	        // Display a success message
+	        JOptionPane.showMessageDialog(registerFrame, "Employee registration successful");
+	        registerFrame.dispose();
+	    });
 
-		registerFrame.add(registerPanel);
-		registerFrame.setVisible(true);
+	    registerPanel.add(new JLabel("Employee Username:"));
+	    registerPanel.add(usernameField);
+	    registerPanel.add(new JLabel("Employee Password:"));
+	    registerPanel.add(passwordField);
+	    registerPanel.add(new JLabel("Full Name:"));
+	    registerPanel.add(fullNameField);
+	    registerPanel.add(new JLabel("Postal Code:"));
+	    registerPanel.add(postalCodeField);
+	    registerPanel.add(new JLabel("Phone Number:"));
+	    registerPanel.add(phoneNumberField);
+	    registerPanel.add(new JLabel("Account Number:"));
+	    registerPanel.add(accountNumberField);
+	    registerPanel.add(new JLabel("Branch Affiliation:"));
+	    registerPanel.add(branchAffiliationComboBox);
+	    registerPanel.add(new JLabel("Position:"));
+	    registerPanel.add(positionComboBox);
+
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    buttonPanel.add(registerButton);
+
+	    registerFrame.add(registerPanel, BorderLayout.CENTER);
+	    registerFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+	    // Center the frame on the screen
+	    registerFrame.setLocationRelativeTo(null);
+
+	    registerFrame.setVisible(true);
 	}
+
+	
+	
 
 	private static void saveCustomersToFile() {
 		try (PrintWriter writer = new PrintWriter(new FileWriter("customer.txt", true))) {

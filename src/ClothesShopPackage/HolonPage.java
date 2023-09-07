@@ -21,8 +21,8 @@ public class HolonPage extends JFrame {
 
     public HolonPage(String username) {
         setTitle("Welcome to Holon, " + username);
-        setSize(800, 600); // Increase the frame size for a better view
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(800, 600);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Load products for Holon branch
         List<Product> products = ProductDatabase.loadProducts("Holon");
@@ -65,38 +65,48 @@ public class HolonPage extends JFrame {
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
-        // Add components to the frame
-        add(searchPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-        
+        // Create a panel for buttons
+        JPanel buttonPanel = new JPanel(new BorderLayout());
         
         JButton logoutButton = new JButton("Logout");
-        add(logoutButton, BorderLayout.SOUTH);
+        JButton openChatRoomButton = new JButton("Open Chat Room");
+        
+        // Styling for buttons
+        Dimension buttonSize = new Dimension(160, 40);
+        logoutButton.setPreferredSize(buttonSize);
+        openChatRoomButton.setPreferredSize(buttonSize);
 
+        // Add action listeners to buttons
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Perform logout action here
-                dispose(); // Close the branch page
-             // Implement code to log out the customer
-                
-                // You may want to navigate back to the login screen or perform other actions here.
-
-                // Get the existing instance of StoreClient and start the application
+                dispose();
                 StoreClient.start();
             }
         });
-        
-        JButton openChatRoomButton = new JButton("Open Chat Room");
+
         openChatRoomButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openChatRoom(); // Open the chat room page
+                openChatRoom();
             }
         });
+
+        // Create left and right panels for buttons
+        JPanel leftButtonPanel = new JPanel();
+        leftButtonPanel.add(openChatRoomButton);
         
-        add(openChatRoomButton, BorderLayout.WEST); // Add the "Open Chat Room" button
-        
+        JPanel rightButtonPanel = new JPanel();
+        rightButtonPanel.add(logoutButton);
+
+        // Add the left and right button panels to the main button panel
+        buttonPanel.add(leftButtonPanel, BorderLayout.WEST);
+        buttonPanel.add(rightButtonPanel, BorderLayout.EAST);
+
+        // Add components to the frame
+        add(searchPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     // Helper method to perform the search
@@ -105,13 +115,11 @@ public class HolonPage extends JFrame {
         RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.regexFilter("(?i)" + searchText); // Case-insensitive search
         sorter.setRowFilter(rowFilter);
     }
-    	
+
     private void openChatRoom() {
         // Create and display the chat room page
         ChatRoomPage chatRoomPage = new ChatRoomPage();
         chatRoomPage.setVisible(true);
     }
-   
-    
-    
+
 }

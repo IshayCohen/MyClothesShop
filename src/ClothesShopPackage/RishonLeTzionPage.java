@@ -9,10 +9,10 @@ import javax.swing.table.TableRowSorter;
 
 import ClothesShop.StoreClient;
 
+import javax.swing.RowFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.RowFilter;
 import java.util.List;
 
 public class RishonLeTzionPage extends JFrame {
@@ -23,7 +23,7 @@ public class RishonLeTzionPage extends JFrame {
     public RishonLeTzionPage(String username) {
         setTitle("Welcome to Rishon LeTzion, " + username);
         setSize(800, 600); // Increase the frame size for a better view
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
 
         // Load products for Rishon LeTzion branch
         List<Product> products = ProductDatabase.loadProducts("Rishon LeTzion");
@@ -66,21 +66,41 @@ public class RishonLeTzionPage extends JFrame {
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
-        // Add components to the frame
-        add(searchPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
+        // Create a panel for buttons
+        JPanel buttonPanel = new JPanel(new BorderLayout());
 
         JButton logoutButton = new JButton("Logout");
-        add(logoutButton, BorderLayout.SOUTH);
+        JButton openChatRoomButton = new JButton("Open Chat Room");
 
+        // Styling for buttons
+        Dimension buttonSize = new Dimension(160, 40);
+        logoutButton.setPreferredSize(buttonSize);
+        openChatRoomButton.setPreferredSize(buttonSize);
+
+        // Add action listeners to buttons
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Perform logout action here
                 dispose(); // Close the branch page
                 StoreClient.start();
             }
         });
+
+        openChatRoomButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openChatRoom(); // Open the chat room page
+            }
+        });
+
+        // Add the buttons to the button panel
+        buttonPanel.add(logoutButton, BorderLayout.EAST);
+        buttonPanel.add(openChatRoomButton, BorderLayout.WEST);
+
+        // Add components to the frame
+        add(searchPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     // Helper method to perform the search
@@ -88,5 +108,11 @@ public class RishonLeTzionPage extends JFrame {
         String searchText = searchField.getText();
         RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.regexFilter("(?i)" + searchText); // Case-insensitive search
         sorter.setRowFilter(rowFilter);
+    }
+
+    private void openChatRoom() {
+        // Create and display the chat room page
+        ChatRoomPage chatRoomPage = new ChatRoomPage();
+        chatRoomPage.setVisible(true);
     }
 }

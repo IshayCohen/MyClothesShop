@@ -2,3 +2,4 @@ emp1;123;empasd;234243;123132;234234;Holon;Seller
 emp2;123;erter;14242;234243;234234;Tel Aviv;Seller
 admin;admin;admin;admin;admin;admin;Holon;Seller
 empholon;123;sfasd;2254234;64234;254353;Holon;Cashier
+emprishon;123;emprishon;41329`;9484929;3849123;Rishon LeTzion;Cashier

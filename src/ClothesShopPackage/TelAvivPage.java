@@ -12,7 +12,6 @@ import ClothesShop.StoreClient;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.RowFilter;
 import java.util.List;
 
 public class TelAvivPage extends JFrame {
@@ -21,11 +20,11 @@ public class TelAvivPage extends JFrame {
     private JTextField searchField;
 
     public TelAvivPage(String username) {
-        setTitle("Welcome to Tel Aviv, " + username);
-        setSize(800, 600); // Increase the frame size for a better view
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("Welcome to Holon, " + username);
+        setSize(800, 600);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Load products for Tel Aviv branch
+        // Load products for Holon branch
         List<Product> products = ProductDatabase.loadProducts("Tel Aviv");
 
         // Create a table model
@@ -66,21 +65,48 @@ public class TelAvivPage extends JFrame {
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
-        // Add components to the frame
-        add(searchPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-
+        // Create a panel for buttons
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        
         JButton logoutButton = new JButton("Logout");
-        add(logoutButton, BorderLayout.SOUTH);
+        JButton openChatRoomButton = new JButton("Open Chat Room");
+        
+        // Styling for buttons
+        Dimension buttonSize = new Dimension(160, 40);
+        logoutButton.setPreferredSize(buttonSize);
+        openChatRoomButton.setPreferredSize(buttonSize);
 
+        // Add action listeners to buttons
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Perform logout action here
-                dispose(); // Close the branch page
+                dispose();
                 StoreClient.start();
             }
         });
+
+        openChatRoomButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openChatRoom();
+            }
+        });
+
+        // Create left and right panels for buttons
+        JPanel leftButtonPanel = new JPanel();
+        leftButtonPanel.add(openChatRoomButton);
+        
+        JPanel rightButtonPanel = new JPanel();
+        rightButtonPanel.add(logoutButton);
+
+        // Add the left and right button panels to the main button panel
+        buttonPanel.add(leftButtonPanel, BorderLayout.WEST);
+        buttonPanel.add(rightButtonPanel, BorderLayout.EAST);
+
+        // Add components to the frame
+        add(searchPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     // Helper method to perform the search
@@ -89,4 +115,11 @@ public class TelAvivPage extends JFrame {
         RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.regexFilter("(?i)" + searchText); // Case-insensitive search
         sorter.setRowFilter(rowFilter);
     }
+
+    private void openChatRoom() {
+        // Create and display the chat room page
+        ChatRoomPage chatRoomPage = new ChatRoomPage();
+        chatRoomPage.setVisible(true);
+    }
+
 }
