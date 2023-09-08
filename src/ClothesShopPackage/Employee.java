@@ -1,7 +1,8 @@
 package ClothesShopPackage;
 
 public class Employee {
-    private String fullName;
+    private String userName;
+	private String fullName;
     private String postalCode;
     private String phoneNumber;
     private String accountNumber;
@@ -12,15 +13,15 @@ public class Employee {
     
     
     
-	public Employee(String fullName, String postalCode, String phoneNumber, String accountNumber,
-			String branchAffiliation, String employeeNumber, String position, String password) {
+	public Employee(String userName,String fullName, String postalCode, String phoneNumber, String accountNumber,
+			String branchAffiliation, String position, String password) {
 		super();
+		this.userName = userName;
 		this.fullName = fullName;
 		this.postalCode = postalCode;
 		this.phoneNumber = phoneNumber;
 		this.accountNumber = accountNumber;
 		this.branchAffiliation = branchAffiliation;
-		this.employeeNumber = employeeNumber;
 		this.position = position;
 		this.password = password ; 
 	}
@@ -30,6 +31,9 @@ public class Employee {
 	}
 	public String getFullName() {
 		return fullName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
@@ -72,6 +76,9 @@ public class Employee {
 	}
 	public String getPassword() {
 		return password;
+	}
+	public String getUsername() {
+		return userName;
 	}
 	public void setPassword(String password) {
 		this.password = password;

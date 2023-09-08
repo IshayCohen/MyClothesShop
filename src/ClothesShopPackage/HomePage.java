@@ -29,12 +29,10 @@ public class HomePage extends JFrame {
 
         // Create buttons for additional actions
         JButton userManagementButton = new JButton("User Management Page");
-        JButton employeeManagementButton = new JButton("Employee Management");
         JButton seeAllProductsButton = new JButton("See All Products");
 
         // Add buttons to the button panel
         buttonPanel.add(userManagementButton);
-        buttonPanel.add(employeeManagementButton);
         buttonPanel.add(seeAllProductsButton);
 
         // Add the button panel to the center of the frame
@@ -78,14 +76,7 @@ public class HomePage extends JFrame {
             }
         });
 
-        employeeManagementButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openEmployeeManagementPage();
-            }
-        });
-
-        seeAllProductsButton.addActionListener(new ActionListener() {
+               seeAllProductsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openAllProductsPage();
@@ -117,17 +108,7 @@ public class HomePage extends JFrame {
         userManagementPage.setVisible(true);
     }
 
-    private void openEmployeeManagementPage() {
-        // Create an instance of EmployeeManager
-        EmployeeManager employeeManager = new EmployeeManager();
-
-        // Create an instance of EmployeeManagementPage and pass the EmployeeManager
-        EmployeeManagementPage employeeManagementPage = new EmployeeManagementPage(employeeManager);
-
-        // Make the Employee Management Page visible
-        employeeManagementPage.setVisible(true);
-    }
-
+  
     private void openAllProductsPage() {
         // Open the All Products Page
         AllProductsPage allProductsPage = new AllProductsPage();

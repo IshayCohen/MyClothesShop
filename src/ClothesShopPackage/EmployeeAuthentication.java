@@ -14,7 +14,7 @@ public class EmployeeAuthentication {
         try (BufferedReader reader = new BufferedReader(new FileReader(EMPLOYEE_DB_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
+                String[] parts = line.split(" : ");
                 if (parts.length == 8 && parts[0].equals(username)) {
                     // If the username matches, return the branch information
                     return parts[6]; // Assuming branch information is at index 6
@@ -40,7 +40,7 @@ public class EmployeeAuthentication {
         try (BufferedReader reader = new BufferedReader(new FileReader("employee.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
+                String[] parts = line.split(" : ");
                 if (parts.length == 8) {
                     String username = parts[0].trim();
                     String password = parts[1].trim();

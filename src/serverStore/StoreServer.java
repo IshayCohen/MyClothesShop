@@ -9,7 +9,7 @@ import ClothesShop.Customer;
 import ClothesShop.Employee;
 
 public class StoreServer {
-    private static final int SERVER_PORT = 12345;
+    private static final int SERVER_PORT = 12346;
     private static List<Customer> customers;
     private static List<Employee> employees;
 
@@ -24,7 +24,6 @@ public class StoreServer {
                 try (Socket clientSocket = serverSocket.accept();
                      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                      BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-                	System.out.println("Here");
                     String requestType = in.readLine();
 
                     if ("customer_login".equals(requestType)) {

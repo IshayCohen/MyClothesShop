@@ -5,8 +5,10 @@ import java.net.*;
 import java.util.*;
 
 public class ChatServer {
-    private static final int PORT = 12346;
     private static Map<String, PrintWriter> onlineUsers = new HashMap<>();
+    private static final int PORT = 12347;
+    private static Set<PrintWriter> clientWriters = new HashSet<>();
+
 
     public static void main(String[] args) {
         System.out.println("Chat Server is running...");
