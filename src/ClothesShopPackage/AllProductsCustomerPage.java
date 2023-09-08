@@ -183,7 +183,6 @@ public class AllProductsCustomerPage extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     cartDialog.dispose(); // Close the dialog
                     
-                    customerHomePage.refreshProductsPage();
 
                 }
             });
@@ -218,7 +217,7 @@ public class AllProductsCustomerPage extends JFrame {
             // Clear the cart after the purchase
             productsToBuy.clear();
             refreshCartTable();
-            customerHomePage.refreshProductsPage();
+           
         }
     }
 

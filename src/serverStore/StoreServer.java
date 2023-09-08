@@ -9,12 +9,12 @@ import ClothesShop.Customer;
 import ClothesShop.Employee;
 
 public class StoreServer {
-    private static final int SERVER_PORT = 12346;
+    private static final int SERVER_PORT = 12348;
     private static List<Customer> customers;
     private static List<Employee> employees;
 
     public static void main(String[] args) {
-        loadCustomersFromFile();
+       // loadCustomersFromFile();
         loadEmployeesFromFile();
 
         try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {

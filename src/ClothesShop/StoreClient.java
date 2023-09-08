@@ -6,7 +6,6 @@ import ClothesShopPackage.CustomerHomePage;
 import ClothesShopPackage.EmployeeAuthentication;
 import ClothesShopPackage.HolonPage;
 import ClothesShopPackage.HomePage;
-import ClothesShopPackage.LoginScreen;
 import ClothesShopPackage.RishonLeTzionPage;
 import ClothesShopPackage.TelAvivPage;
 
@@ -19,7 +18,7 @@ import java.util.List;
 
 public class StoreClient {
 	private static final String SERVER_IP = "192.168.7.11";
-	private static final int SERVER_PORT = 12346;
+	private static final int SERVER_PORT = 12348;
 	private static Socket socket;
 	private static PrintWriter out;
 	private static BufferedReader in;
