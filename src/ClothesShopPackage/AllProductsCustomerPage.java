@@ -1,24 +1,29 @@
 package ClothesShopPackage;
 
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
+
 
 public class AllProductsCustomerPage extends JFrame {
     private List<ProductPackage.Product> cart = new ArrayList<>();
+    
     private String username;
     private JTable table;
     private JTextField searchField;
@@ -126,12 +131,32 @@ public class AllProductsCustomerPage extends JFrame {
                 showCartDialog();
             }
         });
+        
+        JToggleButton toggleSalesButton = new JToggleButton("Show Sales");
+        toggleSalesButton.doClick();
+        toggleSalesButton.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // Toggle button is selected, show products
+                	toggleSalesButton.setText("Show Sales");
+                    clearTable();
+                    loadProductsData();
+                } else {
+                    // Toggle button is deselected, show sales
+                	
+                	toggleSalesButton.setText("Show Products");
+                    clearTable();
+                    loadSalesData();
+                }
+            }
+        });
 
         // Create a panel for buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.add(addToCartButton);
         buttonPanel.add(showCartButton);
-
+        buttonPanel.add(toggleSalesButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Set frame properties
@@ -325,4 +350,66 @@ public class AllProductsCustomerPage extends JFrame {
         }
     }
 
+    
+    private void loadSalesData() {
+        // Read sales data from the "sales.txt" file
+        String fileName = "sales.txt";
+        String salesDatabase = readFile(fileName);
+
+        // Split the sales database into individual sales
+        String[] sales = salesDatabase.split("\n");
+
+        // Create a DefaultTableModel to replace the existing model in cartTable
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        
+        // Iterate through sales and add them to the table
+        for (String sale : sales) {
+            String[] parts = sale.split(":");
+            String type = parts[0];
+            String name = parts[1];
+            String size = parts[2];
+            int quantity = Integer.parseInt(parts[3]);
+            double price = Double.parseDouble(parts[4]);
+            String branch = parts[5];
+
+            model.addRow(new Object[]{type, name, size, quantity, "$" + price, branch});
+        }
+
+        // Set the new model for the correct table (cartTable)
+        table.setModel(model);
+    }
+    
+    private void loadProductsData() {
+        // Read sales data from the "sales.txt" file
+        String fileName = "products.txt";
+        String salesDatabase = readFile(fileName);
+
+        // Split the sales database into individual sales
+        String[] sales = salesDatabase.split("\n");
+
+        // Create a DefaultTableModel to replace the existing model in cartTable
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        
+        // Iterate through sales and add them to the table
+        for (String sale : sales) {
+            String[] parts = sale.split(":");
+            String type = parts[0];
+            String name = parts[1];
+            String size = parts[2];
+            int quantity = Integer.parseInt(parts[3]);
+            double price = Double.parseDouble(parts[4]);
+            String branch = parts[5];
+
+            model.addRow(new Object[]{type, name, size, quantity, "$" + price, branch});
+        }
+
+        // Set the new model for the correct table (cartTable)
+        table.setModel(model);
+    }
+    
+    private void clearTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Clear all rows
+    }
 }
+

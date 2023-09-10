@@ -2,3 +2,5 @@ scarf:wool scarf:one-size:4:$99.96:Holon:cus1
 swimsuit:board shorts:medium:1:$34.99:Rishon LeTzion:cus1
 jacket:winter coat:small:1:$149.99:Tel Aviv:cus1
 shirt:adidas tee:small:1:$44.99:Holon:cus1
+pants:cropped pants:medium:1:$39.99:Tel Aviv:cus1
+shoes:canvas sneakers:large:1:$69.99:Rishon LeTzion:cus1

@@ -1,0 +1,16 @@
+shirt:adidas tee:small:11:44.99:Holon
+pants:jeans skinny:medium:8:69.99:Tel Aviv
+shoes:athletic sneakers:large:15:99.99:Rishon LeTzion
+scarf:winter scarf:one-size:7:19.99:Holon
+jacket:winter coat:small:9:149.99:Tel Aviv
+swimsuit:board shorts:medium:8:34.99:Rishon LeTzion
+shirt:polo shirt:large:14:29.99:Holon
+pants:chinos:small:10:49.99:Tel Aviv
+jacket:faux fur jacket:large:12:149.99:Tel Aviv
+swimsuit:halter bikini:medium:13:49.99:Rishon LeTzion
+shirt:tunic shirt:large:14:34.99:Holon
+pants:cropped pants:medium:15:39.99:Tel Aviv
+shoes:loafers:large:16:69.99:Rishon LeTzion
+scarf:cashmere scarf:one-size:17:19.99:Holon
+jacket:parka:large:18:109.99:Tel Aviv
+swimsuit:swim skirt:medium:19:29.99:Rishon LeTzion

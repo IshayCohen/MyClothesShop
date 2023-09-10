@@ -54,7 +54,7 @@ jacket:windbreaker:large:10:79.99:Tel Aviv
 swimsuit:boardshorts:medium:15:34.99:Rishon LeTzion
 shirt:floral shirt:large:9:49.99:Holon
 pants:skinny jeans:medium:12:59.99:Tel Aviv
-shoes:canvas sneakers:large:10:69.99:Rishon LeTzion
+shoes:canvas sneakers:large:9:69.99:Rishon LeTzion
 scarf:paisley scarf:one-size:11:19.99:Holon
 jacket:puffer jacket:large:8:139.99:Tel Aviv
 swimsuit:beach cover-up:medium:14:24.99:Rishon LeTzion
@@ -77,7 +77,7 @@ scarf:sequin scarf:one-size:11:24.99:Holon
 jacket:faux fur jacket:large:12:149.99:Tel Aviv
 swimsuit:halter bikini:medium:13:49.99:Rishon LeTzion
 shirt:tunic shirt:large:14:34.99:Holon
-pants:cropped pants:medium:15:39.99:Tel Aviv
+pants:cropped pants:medium:14:39.99:Tel Aviv
 shoes:loafers:large:16:69.99:Rishon LeTzion
 scarf:cashmere scarf:one-size:17:19.99:Holon
 jacket:parka:large:18:109.99:Tel Aviv

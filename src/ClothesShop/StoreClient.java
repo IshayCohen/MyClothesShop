@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoreClient {
-	private static final String SERVER_IP = "192.168.7.11";
+	private static final String SERVER_IP = "10.0.0.16";
 	private static final int SERVER_PORT = 12348;
 	private static Socket socket;
 	private static PrintWriter out;
