@@ -6,3 +6,6 @@ pants:cropped pants:medium:1:$39.99:Tel Aviv:cus1
 shoes:canvas sneakers:large:1:$69.99:Rishon LeTzion:cus1
 swimsuit:beach cover-up:medium:1:$24.99:Rishon LeTzion:cus1
 pants:cargo shorts:large:2:$69.98:Tel Aviv:cus1
+pants:capri pants:small:3:$89.97:Tel Aviv:cus2
+pants:cropped pants:medium:1:$39.99:Tel Aviv:cus2
+shirt:adidas tee:small:2:$89.98:Holon:cus2
