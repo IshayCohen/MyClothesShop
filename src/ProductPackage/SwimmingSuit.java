@@ -1,5 +1,7 @@
 package ProductPackage;
 
+import java.io.Serializable;
+
 public class SwimmingSuit extends Product {
 	private String style;
 

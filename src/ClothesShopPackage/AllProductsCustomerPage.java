@@ -1,29 +1,19 @@
 package ClothesShopPackage;
 
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class AllProductsCustomerPage extends JFrame {
     private List<ProductPackage.Product> cart = new ArrayList<>();
-    
     private String username;
     private JTable table;
     private JTextField searchField;
@@ -32,6 +22,7 @@ public class AllProductsCustomerPage extends JFrame {
     public AllProductsCustomerPage(String username, CustomerHomePage customerHomePage) {
         this.username = username;
 
+        //loadCartFromFile(username);
         // Read data from the "products.txt" file
         String fileName = "products.txt";
         String database = readFile(fileName);
@@ -70,8 +61,8 @@ public class AllProductsCustomerPage extends JFrame {
 
         // Add a search field and button
         searchField = new JTextField(20);
-        
-     // Add a DocumentListener to the searchField
+
+        // Add a DocumentListener to the searchField
         searchField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -89,7 +80,6 @@ public class AllProductsCustomerPage extends JFrame {
             }
         });
 
-        
         JPanel searchPanel = new JPanel();
         searchPanel.add(new JLabel("Search: "));
         searchPanel.add(searchField);
@@ -116,6 +106,7 @@ public class AllProductsCustomerPage extends JFrame {
                         ProductPackage.Product product = new ProductPackage.Product(type, name, size, quantityToBuy, totalPrice, branch);
                         cart.add(product);
                         JOptionPane.showMessageDialog(AllProductsCustomerPage.this, "Product added to cart");
+                        saveCartToDisk(); // Save the updated cart to disk
                     }
                 } else {
                     JOptionPane.showMessageDialog(AllProductsCustomerPage.this, "Please select a product to add to the cart");
@@ -131,7 +122,7 @@ public class AllProductsCustomerPage extends JFrame {
                 showCartDialog();
             }
         });
-        
+
         JToggleButton toggleSalesButton = new JToggleButton("Show Sales");
         toggleSalesButton.doClick();
         toggleSalesButton.addItemListener(new ItemListener() {
@@ -139,13 +130,12 @@ public class AllProductsCustomerPage extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     // Toggle button is selected, show products
-                	toggleSalesButton.setText("Show Sales");
+                    toggleSalesButton.setText("Show Sales");
                     clearTable();
                     loadProductsData();
                 } else {
                     // Toggle button is deselected, show sales
-                	
-                	toggleSalesButton.setText("Show Products");
+                    toggleSalesButton.setText("Show Products");
                     clearTable();
                     loadSalesData();
                 }
@@ -167,7 +157,7 @@ public class AllProductsCustomerPage extends JFrame {
         setVisible(true);
     }
 
-      private static String readFile(String fileName) {
+    private static String readFile(String fileName) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -202,7 +192,9 @@ public class AllProductsCustomerPage extends JFrame {
     }
 
     private void showCartDialog() {
-        if (cart.isEmpty()) {
+        List<ProductPackage.Product> cartItemsFromFile = loadCartFromFile(username);
+
+        if (cartItemsFromFile.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Cart is empty.");
         } else {
             dispose();
@@ -213,7 +205,7 @@ public class AllProductsCustomerPage extends JFrame {
             DefaultTableModel model = new DefaultTableModel(columnNames, 0);
             JTable cartTable = new JTable(model);
 
-            for (ProductPackage.Product product : cart) {
+            for (ProductPackage.Product product : cartItemsFromFile) {
                 model.addRow(new Object[]{product.getType(), product.getName(), product.getSize(),
                         product.getQuantity(), "$" + product.getPrice(), product.getBranch()});
             }
@@ -225,7 +217,10 @@ public class AllProductsCustomerPage extends JFrame {
             buyButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    confirmPurchase(cart);
+                    confirmPurchase(cartItemsFromFile);
+                    cartItemsFromFile.clear(); // Clear the cart after purchase
+                    saveCartToDisk(); // Save the updated (empty) cart to disk
+                    cartDialog.dispose();
                 }
             });
 
@@ -247,6 +242,7 @@ public class AllProductsCustomerPage extends JFrame {
             cartDialog.setVisible(true);
         }
     }
+
     private void filterAndDisplayProducts(String query) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
@@ -266,7 +262,6 @@ public class AllProductsCustomerPage extends JFrame {
             }
         }
     }
-
 
     private void confirmPurchase(List<ProductPackage.Product> productsToBuy) {
         double totalPrice = calculateTotalPrice(productsToBuy);
@@ -350,7 +345,6 @@ public class AllProductsCustomerPage extends JFrame {
         }
     }
 
-    
     private void loadSalesData() {
         // Read sales data from the "sales.txt" file
         String fileName = "sales.txt";
@@ -361,7 +355,7 @@ public class AllProductsCustomerPage extends JFrame {
 
         // Create a DefaultTableModel to replace the existing model in cartTable
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        
+
         // Iterate through sales and add them to the table
         for (String sale : sales) {
             String[] parts = sale.split(":");
@@ -378,7 +372,7 @@ public class AllProductsCustomerPage extends JFrame {
         // Set the new model for the correct table (cartTable)
         table.setModel(model);
     }
-    
+
     private void loadProductsData() {
         // Read sales data from the "sales.txt" file
         String fileName = "products.txt";
@@ -389,7 +383,7 @@ public class AllProductsCustomerPage extends JFrame {
 
         // Create a DefaultTableModel to replace the existing model in cartTable
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        
+
         // Iterate through sales and add them to the table
         for (String sale : sales) {
             String[] parts = sale.split(":");
@@ -406,10 +400,36 @@ public class AllProductsCustomerPage extends JFrame {
         // Set the new model for the correct table (cartTable)
         table.setModel(model);
     }
-    
+
     private void clearTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0); // Clear all rows
     }
-}
 
+    // Save the cart to a file
+    private void saveCartToDisk() {
+        String cartFileName = username + "_cart.ser";
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(cartFileName))) {
+            outputStream.writeObject(cart);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Load the cart from a file
+    private List<ProductPackage.Product> loadCartFromFile(String username) {
+        String cartFileName = username + "_cart.ser";
+        File cartFile = new File(cartFileName);
+        List<ProductPackage.Product> loadedCart = new ArrayList<>();
+
+        if (cartFile.exists()) {
+            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(cartFile))) {
+                loadedCart = (List<ProductPackage.Product>) inputStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return loadedCart;
+    }
+}

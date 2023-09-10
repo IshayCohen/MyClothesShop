@@ -1,5 +1,7 @@
 package ProductPackage;
 
+import java.io.Serializable;
+
 public class Coat extends Product {
     private String material;
   

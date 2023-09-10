@@ -16,11 +16,10 @@ public class ChatRoomPage extends JFrame {
     public ChatRoomPage(String username) {
         setTitle("Chat Room");
         setSize(400, 200);
-        //setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         // Create a JComboBox for selecting users
         userComboBox = new JComboBox<>();
-        populateUserComboBox(); // Populate the combo box with user names from users.txt
+        populateUserComboBox(); 
 
         // Create a JButton to open a chat with the selected user
         JButton openChatButton = new JButton("Open Chat");
@@ -30,7 +29,7 @@ public class ChatRoomPage extends JFrame {
             	String selectedUser = (String) userComboBox.getSelectedItem();
             	if (selectedUser != null) {
             	    // Create a chat client with the selected user's information
-            	    ChatClient chatClient = new ChatClient("10.0.0.16" , 12347 , username);
+            	    ChatClient chatClient = new ChatClient("192.168.7.11" , 12347 , username);
             	    chatClient.setVisible(true);
             	}
             }

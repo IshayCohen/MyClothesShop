@@ -1,5 +1,7 @@
 package ProductPackage;
 
+import java.io.Serializable;
+
 public class Pants extends Product {
     private String material;
 

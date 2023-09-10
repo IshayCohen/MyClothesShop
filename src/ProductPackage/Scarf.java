@@ -1,6 +1,8 @@
 package ProductPackage;
 
-public class Scarf extends Product {
+import java.io.Serializable;
+
+public class Scarf extends Product{
     private String material;
 
     public Scarf(String name, String size, int quantity, double price, String branch, String material) {

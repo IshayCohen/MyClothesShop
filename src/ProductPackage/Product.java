@@ -1,6 +1,10 @@
 package ProductPackage;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable{
+    private static final long serialVersionUID = 1L; // Add this serial version UID
+
     private String type;
     private String name;
     private String size;
