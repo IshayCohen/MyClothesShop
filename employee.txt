@@ -5,3 +5,4 @@ empholon;123;employeeholon;555;05012345;4;Holon;Cashier
 emprishon;123;employeerishon;12345;050234523;5;Rishon LeTzion;Shift Manager
 emptlv;123;employeetlv;555666;050000001;6;Tel Aviv;Shift Manager
 admin;admin;admin;admin;admin;admin;Holon;Seller
+emp9;123;emp9name;28374;273748392;28744777;Rishon LeTzion;Cashier

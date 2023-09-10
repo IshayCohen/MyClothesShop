@@ -16,6 +16,12 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+
 public class StoreClient {
 	private static final String SERVER_IP = "10.0.0.16";
 	private static final int SERVER_PORT = 12348;
@@ -27,18 +33,39 @@ public class StoreClient {
 	private static List<Customer> customers = new ArrayList<>();
 	private static List<Employee> employees = new ArrayList<>();
 	private static int flag = 1;
+	private static final Logger customerLogger = Logger.getLogger("CustomerLog");
+	private static final Logger employeeLogger = Logger.getLogger("EmployeeLog");
 
 	public static void main(String[] args) {
-		try {
-			socket = new Socket(SERVER_IP, SERVER_PORT);
-			out = new PrintWriter(socket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	    try {
+	        // Set up log file handlers and formatters
+	        FileHandler customerFileHandler = new FileHandler("customer.log", true);
+	        FileHandler employeeFileHandler = new FileHandler("employee.log", true);
+	        
+	        // Configure formatters
+	        SimpleFormatter formatter = new SimpleFormatter();
+	        customerFileHandler.setFormatter(formatter);
+	        employeeFileHandler.setFormatter(formatter);
 
-			SwingUtilities.invokeLater(() -> createGUI(tabbedPane));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	        // Add file handlers to loggers
+	        customerLogger.addHandler(customerFileHandler);
+	        employeeLogger.addHandler(employeeFileHandler);
+
+	        // Set log levels (you can adjust these as needed)
+	        customerLogger.setLevel(Level.INFO);
+	        employeeLogger.setLevel(Level.INFO);
+
+	        // Continue with your existing code...
+	        socket = new Socket(SERVER_IP, SERVER_PORT);
+	        out = new PrintWriter(socket.getOutputStream(), true);
+	        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+	        SwingUtilities.invokeLater(() -> createGUI(tabbedPane));
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	private static void createGUI(JTabbedPane tabbedPane) {
 	    mainFrame = new JFrame("Store Login and Register");
@@ -291,23 +318,28 @@ public class StoreClient {
 
 
 	private static void saveCustomersToFile() {
-		try (PrintWriter writer = new PrintWriter(new FileWriter("customer.txt", true))) {
-			for (Customer customer : customers) {
-				writer.println(customer.toText());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    try (PrintWriter writer = new PrintWriter(new FileWriter("customer.txt", true))) {
+	        for (Customer customer : customers) {
+	            writer.println(customer.toText());
+	            // Log customer registration
+	            customerLogger.info("Customer registered: " + customer.getUsername());
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 
+
 	private static void saveEmployeesToFile() {
-		try (PrintWriter writer = new PrintWriter(new FileWriter("employee.txt", true))) {
-			for (Employee employee : employees) {
-				writer.println(employee.toText());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    try (PrintWriter writer = new PrintWriter(new FileWriter("employee.txt", true))) {
+	        for (Employee employee : employees) {
+	            writer.println(employee.toText());
+	            // Log employee registration
+	            employeeLogger.info("Employee registered: " + employee.getUsername());
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	public static void start() {
