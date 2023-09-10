@@ -5,62 +5,86 @@ import java.net.*;
 import java.util.*;
 
 public class ChatServer {
-    private static final int PORT = 12347;
-    private static Set<PrintWriter> clientWriters = new HashSet<>();
+	private static final int PORT = 12347;
+	private static Set<ClientHandler> clientHandlers = new HashSet<>();
 
-    public static void main(String[] args) {
-        System.out.println("Chat Server is running...");
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            while (true) {
-                new ClientHandler(serverSocket.accept()).start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	public static void main(String[] args) {
+		System.out.println("Chat Server is running...");
+		try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+			while (true) {
+				new ClientHandler(serverSocket.accept()).start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    private static class ClientHandler extends Thread {
-        private Socket socket;
-        private PrintWriter writer;
+	private static class ClientHandler extends Thread {
+		private Socket socket;
+		private PrintWriter writer;
+		private String username;
+		private String recipient;
 
-        public ClientHandler(Socket socket) {
-            this.socket = socket;
-        }
+		public ClientHandler(Socket socket) {
+			this.socket = socket;
+		}
 
-        public void run() {
-            try {
-                writer = new PrintWriter(socket.getOutputStream(), true);
-                synchronized (clientWriters) {
-                    clientWriters.add(writer);
-                }
+		public void run() {
+			try {
+				writer = new PrintWriter(socket.getOutputStream(), true);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String message;
+				// Ask the client for its username
+				
+				username = reader.readLine();
+				recipient = reader.readLine();
+				synchronized (clientHandlers) {
+					clientHandlers.add(this);
+				}
 
-                while ((message = reader.readLine()) != null) {
-                    System.out.println("Received: " + message);
-                    broadcast(message);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                synchronized (clientWriters) {
-                    clientWriters.remove(writer);
-                }
-            }
-        }
-    }
+				// Inform all clients about the new user
+				broadcast(username + " has joined the chat.");
 
-    private static void broadcast(String message) {
-        synchronized (clientWriters) {
-            for (PrintWriter writer : clientWriters) {
-                writer.println(message);
-            }
-        }
-    }
+				String message;
+				while ((message = reader.readLine()) != null) {
+					if (true) {
+						// Handle private message
+
+						sendPrivateMessage(username, recipient, message);
+					} 
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				// Remove the client from the set of handlers and inform others
+				synchronized (clientHandlers) {
+					clientHandlers.remove(this);
+				}
+				broadcast(username + " has left the chat.");
+				try {
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		private void sendPrivateMessage(String sender, String recipient, String message) {
+			for (ClientHandler handler : clientHandlers) {
+				if (handler.username.equals(recipient)) {
+					handler.writer.println(message);
+					return; // Send the message to the first matching recipient
+				}
+			}
+			writer.println("Error: The user " + recipient + " is not online.");
+		}
+	}
+
+	private static void broadcast(String message) {
+		synchronized (clientHandlers) {
+			for (ClientHandler handler : clientHandlers) {
+				handler.writer.println(message);
+			}
+		}
+	}
 }
