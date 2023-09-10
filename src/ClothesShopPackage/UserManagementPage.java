@@ -18,8 +18,7 @@ public class UserManagementPage extends JFrame {
 	public UserManagementPage() {
 		setTitle("User Management Page");
 		setSize(800, 400);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+		
 		// Create table models for customers and employees
 		customerTableModel = new DefaultTableModel();
 		employeeTableModel = new DefaultTableModel();
@@ -404,6 +403,9 @@ public class UserManagementPage extends JFrame {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] userData = line.split(";");
+				userData[1]=userData[2];
+				userData[2]=userData[3];
+				userData[3]=userData[4];
 				if (userData.length == 5) {
 					tableModel.addRow(userData);
 				}

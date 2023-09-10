@@ -257,14 +257,12 @@ public class HolonPage extends JFrame {
         historyDialog.setSize(600, 400);
         historyDialog.setVisible(true);
 
-        // Method to filter the table based on the search text
        
     }
 
 
 
     public static void main(String[] args) {
-        // Example usage: Create a HolonPage frame with a username
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
