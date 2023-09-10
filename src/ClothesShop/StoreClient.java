@@ -289,8 +289,6 @@ public class StoreClient {
 	    registerFrame.setVisible(true);
 	}
 
-	
-	
 
 	private static void saveCustomersToFile() {
 		try (PrintWriter writer = new PrintWriter(new FileWriter("customer.txt", true))) {

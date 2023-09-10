@@ -31,7 +31,7 @@ public class ChatRoomPage extends JFrame {
             	String selectedUser = (String) userComboBox.getSelectedItem();
             	if (selectedUser != null) {
             	    // Create a chat client with the selected user's information
-            	    ChatClient chatClient = new ChatClient("10.0.0.16" , 12346 , selectedUser, username);
+            	    ChatClient chatClient = new ChatClient("10.0.0.16" , 12347 , username);
             	    chatClient.setVisible(true);
             	}
             }

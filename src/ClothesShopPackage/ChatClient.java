@@ -1,10 +1,10 @@
 package ClothesShopPackage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import javax.swing.*;
 
 public class ChatClient extends JFrame {
     private Socket socket;
@@ -12,17 +12,17 @@ public class ChatClient extends JFrame {
     private BufferedReader in;
     private JTextArea chatArea;
     private JTextField messageField;
-    private String username , selectedUser;
+    private String username;
 
-    public ChatClient(String serverAddress, int serverPort, String selectedUser, String user) {
-        this.username = user;
-        this.selectedUser = selectedUser;
+    public ChatClient(String serverAddress, int serverPort, String username) {
+        this.username = username;
+
         try {
             socket = new Socket(serverAddress, serverPort);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            setTitle("Chat Client - " + selectedUser);
+            setTitle("Chat Client - " + username);
             setSize(400, 300);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -32,6 +32,8 @@ public class ChatClient extends JFrame {
 
             messageField = new JTextField();
             JButton sendButton = new JButton("Send");
+            JButton saveButton = new JButton("Save"); // New "Save" button
+
             sendButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -39,9 +41,17 @@ public class ChatClient extends JFrame {
                 }
             });
 
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    saveChat();
+                }
+            });
+
             JPanel inputPanel = new JPanel(new BorderLayout());
             inputPanel.add(messageField, BorderLayout.CENTER);
             inputPanel.add(sendButton, BorderLayout.EAST);
+            inputPanel.add(saveButton, BorderLayout.WEST); // Add the "Save" button
 
             add(scrollPane, BorderLayout.CENTER);
             add(inputPanel, BorderLayout.SOUTH);
@@ -68,27 +78,30 @@ public class ChatClient extends JFrame {
     private void sendMessage() {
         String messageText = messageField.getText().trim();
         if (!messageText.isEmpty()) {
-            if (messageText.startsWith("/private")) {
-                // Send a private message
-                String[] parts = messageText.split(" ", 3);
-                if (parts.length == 3) {
-                    String recipient = parts[1];
-                    String privateMessage = parts[2];
-                    String message = "/private " + recipient + " " + privateMessage;
-                    out.println(message);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid private message format. Use /private username message");
-                }
-            } else {
-                // Send a regular message
-                String message = username + ": " + messageText + "^" + username + "^" + selectedUser;
-                out.println(message);
-            }
+            String message = username + ": " + messageText;
+            out.println(message);
             messageField.setText("");
         }
     }
 
     private void appendMessage(String message) {
         chatArea.append(message + "\n");
+    }
+
+    private void saveChat() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            try (PrintWriter writer = new PrintWriter(selectedFile)) {
+                String chatText = chatArea.getText();
+                writer.println(chatText);
+                JOptionPane.showMessageDialog(this, "Chat saved to " + selectedFile.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error saving chat to file.");
+            }
+        }
     }
 }

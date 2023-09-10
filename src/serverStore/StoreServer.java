@@ -108,7 +108,7 @@ public class StoreServer {
         }
     }
 
-    // ... (other methods)
+  
 
     public static void saveCustomersToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("customer.txt"))) {
